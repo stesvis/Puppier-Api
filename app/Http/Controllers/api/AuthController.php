@@ -54,7 +54,7 @@ class AuthController extends BaseApiController
 
             // Check the password
             if (!$user || !Hash::check($request->password, $user->password)) {
-                throw new \Exception('User not found.');
+                return (new ErrorResource($errorDto))->response()->setStatusCode(Response::HTTP_BAD_REQUEST);
             }
 
             $token = $user->createToken($request->device_name);
