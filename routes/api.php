@@ -17,14 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1.0')->group(function () {
-    Route::middleware('auth:sanctum')->get('/users/me', function (Request $request) {
-        return $request->user();
-    });
+    // authentication
+    Route::post('auth/token', [\App\Http\Controllers\api\AuthController::class, 'token']);
+
+    Route::get('users/me', [\App\Http\Controllers\api\UsersApiController::class, 'me'])->middleware('auth:sanctum');
+    Route::apiResources([
+        'users' => \App\Http\Controllers\api\UsersApiController::class,
+    ]);
+
 
     Route::get('test', function (Request $request) {
         if ($request->user()->tokenCan('read')) {
-            dd($request->user()->allTeams());
-
             return (new \App\Http\Resources\SuccessResource(new \App\DTOs\SuccessDTO('Success!')))->response()
                 ->setStatusCode
                 (Response::HTTP_OK);
@@ -34,5 +37,4 @@ Route::prefix('v1.0')->group(function () {
         (Response::HTTP_UNAUTHORIZED);
     })->middleware('auth:sanctum');
 
-    Route::post('auth/token', [\App\Http\Controllers\api\AuthController::class, 'token']);
 });
