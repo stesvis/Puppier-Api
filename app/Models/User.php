@@ -57,4 +57,50 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    /**
+     * @param string|array $roles
+     * @return bool
+     */
+    public function authorizeRoles($roles)
+    {
+        if (is_array($roles)) {
+            return $this->hasAnyOfTheseRoles($roles) ||
+                abort(401, 'This action is unauthorized.');
+        }
+
+        return $this->hasRole($roles) ||
+            abort(401, 'This action is unauthorized.');
+    }
+
+    /**
+     * Check multiple roles
+     *
+     * @param array $roles
+     * @return bool
+     */
+    public function hasAnyOfTheseRoles($roles = null)
+    {
+        if ($roles === null) {
+            return $this->roles()->count() > 0;
+        }
+
+        return $this->roles()->whereIn('name', $roles)->first() !== null;
+    }
+
+    /**
+     * Check one role
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->first() !== null;
+    }
 }
