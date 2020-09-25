@@ -23,8 +23,8 @@ Route::prefix('v1.0')->group(function () {
     Route::get('users/me', [\App\Http\Controllers\api\UsersApiController::class, 'me'])->middleware('auth:sanctum');
     Route::apiResources([
         'users' => \App\Http\Controllers\api\UsersApiController::class,
+        'listings'=> \App\Http\Controllers\api\ListingsApiController::class,
     ]);
-
 
     Route::get('test', function (Request $request) {
         if ($request->user()->tokenCan('read')) {
