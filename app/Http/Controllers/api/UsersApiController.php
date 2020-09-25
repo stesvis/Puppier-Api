@@ -5,31 +5,40 @@ namespace App\Http\Controllers\api;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Models\User;
+use App\Services\Users\UsersServiceInterface;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UsersApiController extends BaseApiController
 {
-    public function __construct(Request $request)
+    /**
+     * @var UsersServiceInterface
+     */
+    private $service;
+
+    public function __construct(Request $request, UsersServiceInterface $service)
     {
         parent::__construct($request);
+        $this->service = $service;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return UserResourceCollection|\Illuminate\Http\JsonResponse|object
+     * @return UserResourceCollection|JsonResponse|object
      */
     public function index()
     {
         try {
-            $users = User::all();
+            $users = $this->service->all();
             if ($this->paginate !== null) {
                 $users = $users->paginate($this->paginate);
             }
 
             return new UserResourceCollection($users);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return parent::handleException($ex);
         }
     }
@@ -37,7 +46,7 @@ class UsersApiController extends BaseApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -49,13 +58,15 @@ class UsersApiController extends BaseApiController
      * Display the specified resource.
      *
      * @param User $user
-     * @return UserResource|\Illuminate\Http\JsonResponse|object
+     * @return UserResource|JsonResponse|object
      */
-    public function show(User $user)
+    public function show($id)
     {
         try {
+            $user = $this->service->get($id);
+
             return new UserResource($user);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return parent::handleException($ex);
         }
     }
@@ -63,8 +74,8 @@ class UsersApiController extends BaseApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User         $user
+     * @param Request $request
+     * @param User    $user
      * @return Response
      */
     public function update(Request $request, User $user)
@@ -75,7 +86,7 @@ class UsersApiController extends BaseApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user)
@@ -84,13 +95,13 @@ class UsersApiController extends BaseApiController
     }
 
     /**
-     * @return UserResource|\Illuminate\Http\JsonResponse|object
+     * @return UserResource|JsonResponse|object
      */
     public function me()
     {
         try {
             return new UserResource($this->request->user());
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return parent::handleException($ex);
         }
     }

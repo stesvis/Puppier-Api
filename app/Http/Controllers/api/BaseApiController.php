@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\DTOs\ErrorDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ErrorResource;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -30,7 +31,7 @@ class BaseApiController extends Controller
         }
     }
 
-    public function handleException(\Exception $ex)
+    public function handleException(Exception $ex)
     {
         $code = $ex->getCode();
 

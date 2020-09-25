@@ -19,7 +19,11 @@ class CreateListingsTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('location');
-            $table->unsignedDecimal('price', 5, 2);
+            $table->string('address');
+            $table->unsignedDecimal('price', 8, 2)->default(0.00);
+            $table->foreignId('listing_category_id')->constrained();
+            $table->integer('views_count')->default(0);
+            $table->boolean('show_contact_phone')->default(false);
             $table->timestamps();
         });
     }

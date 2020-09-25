@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -25,7 +27,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -58,11 +62,17 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    /**
+     * @return BelongsToMany
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    /**
+     * @return HasMany
+     */
     public function listings()
     {
         return $this->hasMany(Listing::class);

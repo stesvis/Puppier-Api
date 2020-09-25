@@ -7,6 +7,7 @@ use App\DTOs\TokenDTO;
 use App\Http\Resources\ErrorResource;
 use App\Http\Resources\TokenResource;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class AuthController extends BaseApiController
             $token = $user->createToken($request->device_name);
 
             return new TokenResource(new TokenDTO($token->plainTextToken, 'Bearer'));
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return parent::handleException($ex);
         }
     }
