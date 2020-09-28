@@ -66,6 +66,8 @@ class ListingsApiController extends BaseApiController
         try {
 //            $listing = $this->service->get($id, ['listingCategory', 'user']);
             $listing = $this->service->get($id);
+            $listing->views_count++;
+            $listing->save();
 
             return new ListingResource($listing);
         } catch (Exception $ex) {
