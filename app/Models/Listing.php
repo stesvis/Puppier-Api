@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Listing extends BaseModel
 {
@@ -35,8 +36,16 @@ class Listing extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function category()
+    public function listingCategory()
     {
         return $this->belongsTo(ListingCategory::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function listingPhotos()
+    {
+        return $this->hasMany(ListingPhoto::class);
     }
 }

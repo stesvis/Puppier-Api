@@ -8,6 +8,7 @@ use App\Http\Resources\VehicleResource;
 use App\Models\Listing;
 use App\Services\Listings\ListingsServiceInterface;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -27,7 +28,7 @@ class ListingsApiController extends BaseApiController
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse|Response|object
      */
     public function index()
     {
@@ -58,11 +59,12 @@ class ListingsApiController extends BaseApiController
      * Display the specified resource.
      *
      * @param $id
-     * @return Response
+     * @return JsonResponse|Response|object
      */
     public function show($id)
     {
         try {
+//            $listing = $this->service->get($id, ['listingCategory', 'user']);
             $listing = $this->service->get($id);
 
             return new ListingResource($listing);

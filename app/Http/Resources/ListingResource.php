@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class ListingResource extends JsonResource
+class ListingResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +14,30 @@ class ListingResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $includes = parent::getIncludes($request);
+
+        $listing = parent::toArray($request);
+        $listing[] = $this->mergeWhen(
+            !isset($listing['user']) &&
+            ($includes->contains('user') || $includes->contains('listings.user')),
+            [
+                'user' => new UserResource($this->user), // additional field
+            ]);
+        $listing[] = $this->mergeWhen(
+            !isset($listing['category']) &&
+            ($includes->contains('category') || $includes->contains('listings.category')),
+            [
+                'category' => new ListingCategoryResource($this->listingCategory), // additional field
+            ]);
+        $listing[] = $this->mergeWhen(
+            !isset($listing['photos']) &&
+            ($includes->contains('photos') || $includes->contains('listings.photos')),
+            [
+                'photos' => new ListingPhotoResourceCollection($this->listingPhotos), // additional field
+            ]);
+
+        return $listing;
+//        return parent::toArray($request);
 
         // Custom
 //        return [
