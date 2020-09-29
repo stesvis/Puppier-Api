@@ -28,7 +28,7 @@ class ListingFactory extends Factory
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->text,
             'location' => $this->faker->latitude.','.$this->faker->longitude,
-            'address' => $this->faker->address,
+            'address' => $this->faker->city.', '.$this->faker->stateAbbr,
             'price' => $this->faker->randomFloat(2, 0, 5000),
             'listing_category_id' => ListingCategory::inRandomOrder()->first()->id,
             'show_contact_phone' => $this->faker->boolean,
