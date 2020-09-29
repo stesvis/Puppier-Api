@@ -36,16 +36,24 @@ class Listing extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function listingCategory()
+    public function category()
     {
-        return $this->belongsTo(ListingCategory::class);
+        return $this->belongsTo(ListingCategory::class, 'listing_category_id');
     }
 
     /**
      * @return HasMany
      */
-    public function listingPhotos()
+    public function photos()
     {
         return $this->hasMany(ListingPhoto::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(ListingComment::class);
     }
 }

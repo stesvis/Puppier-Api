@@ -27,13 +27,19 @@ class ListingResource extends BaseResource
             !isset($listing['category']) &&
             ($includes->contains('category') || $includes->contains('listings.category')),
             [
-                'category' => new ListingCategoryResource($this->listingCategory), // additional field
+                'category' => new ListingCategoryResource($this->category), // additional field
             ]);
         $listing[] = $this->mergeWhen(
             !isset($listing['photos']) &&
             ($includes->contains('photos') || $includes->contains('listings.photos')),
             [
-                'photos' => new ListingPhotoResourceCollection($this->listingPhotos), // additional field
+                'photos' => new ListingPhotoResourceCollection($this->photos), // additional field
+            ]);
+        $listing[] = $this->mergeWhen(
+            !isset($listing['comments']) &&
+            ($includes->contains('comments') || $includes->contains('listings.comments')),
+            [
+                'comments' => new ListingCommentResourceCollection($this->comments), // additional field
             ]);
 
         return $listing;
