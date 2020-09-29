@@ -8,5 +8,4 @@ use App\Services\BaseServiceInterface;
 
 interface ListingCategoriesServiceInterface extends BaseServiceInterface
 {
-
 }

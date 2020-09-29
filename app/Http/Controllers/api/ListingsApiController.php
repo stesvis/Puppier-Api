@@ -33,7 +33,33 @@ class ListingsApiController extends BaseApiController
     public function index()
     {
         try {
-            $listings = $this->service->all();
+            $keywords = $this->request->query('keywords');
+            $where = $this->request->query('where');
+            $category_id = $this->request->query('category_id');
+
+            if (!empty($keywords) || !empty($where) || (!empty($category_id) && is_numeric($category_id))) {
+                $listings = $this->service->search($keywords, $where, $category_id);
+            } else {
+                $listings = $this->service->all();
+            }
+
+            if ($this->paginate !== null) {
+                $listings = $listings->paginate($this->paginate);
+            }
+
+            return new ListingResourceCollection($listings);
+        } catch (Exception $ex) {
+            return parent::handleException($ex);
+        }
+    }
+
+    /**
+     * @return ListingResourceCollection|JsonResponse|object
+     */
+    public function featured()
+    {
+        try {
+            $listings = $this->service->featured();
             if ($this->paginate !== null) {
                 $listings = $listings->paginate($this->paginate);
             }

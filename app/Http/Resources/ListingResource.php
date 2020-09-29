@@ -41,6 +41,7 @@ class ListingResource extends BaseResource
             [
                 'comments' => new ListingCommentResourceCollection($this->comments), // additional field
             ]);
+        $listing['tags'] = [];
 
         return $listing;
 //        return parent::toArray($request);

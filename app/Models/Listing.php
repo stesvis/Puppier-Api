@@ -56,4 +56,12 @@ class Listing extends BaseModel
     {
         return $this->hasMany(ListingComment::class);
     }
+
+    /**
+     * @return string
+     */
+    public function getPriceAttribute($price)
+    {
+        return '$'.number_format($price, 2, '.', ',');
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Models\ListingComment;
 use Illuminate\Http\Request;
 
-class ListingCommentsController extends BaseApiController
+class ListingCommentsApiController extends BaseApiController
 {
     public function __construct(Request $request)
     {

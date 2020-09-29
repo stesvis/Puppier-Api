@@ -16,11 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1.0')->group(function () {
+Route::prefix('v1')->group(function () {
     // authentication
     Route::post('auth/token', [\App\Http\Controllers\api\AuthController::class, 'token']);
 
+    // Custom users routes
     Route::get('users/me', [\App\Http\Controllers\api\UsersApiController::class, 'me'])->middleware('auth:sanctum');
+
+    // Custom listings routes
+    Route::get('listings/featured', [\App\Http\Controllers\api\ListingsApiController::class, 'featured']);
+
     Route::apiResources([
         'users' => \App\Http\Controllers\api\UsersApiController::class,
         'listings' => \App\Http\Controllers\api\ListingsApiController::class,

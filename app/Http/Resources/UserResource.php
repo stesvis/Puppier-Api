@@ -20,6 +20,8 @@ class UserResource extends BaseResource
         $user[] = $this->mergeWhen(!isset($user['listings']) && ($includes->contains('listings')), [
             'listings' => new ListingResourceCollection($this->listings), // additional field
         ]);
+        $user['reviews'] = [];
+        $user['listings_count'] = count($this->listings);
 
         return $user;
 //        return [
