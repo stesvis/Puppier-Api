@@ -32,7 +32,7 @@ class CreateListingCommentsTable extends Migration
     public function down()
     {
         Schema::table('listing_comments', function (Blueprint $table) {
-            $table->dropForeign(['listing_id', 'user_id']);
+            $table->dropForeign(['listing_id']);
         });
 
         Schema::dropIfExists('listing_comments');

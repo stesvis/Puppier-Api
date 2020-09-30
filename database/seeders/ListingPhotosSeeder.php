@@ -22,7 +22,7 @@ class ListingPhotosSeeder extends Seeder
             $photos_count = rand(1, 5);
 
             for ($i = 0; $i < $photos_count; $i++) {
-                $public_url = $listing->listingCategory->name === 'Dog' ? $faker->imageUrl(1200, 1200, 'animals') : $faker->imageUrl(1200, 1200, 'cats');
+                $public_url = $listing->category->name === 'Dog' ? $faker->imageUrl(1200, 1200, 'animals') : $faker->imageUrl(1200, 1200, 'cats');
 
                 ListingPhoto::create([
                     'listing_id' => $listing->id,
