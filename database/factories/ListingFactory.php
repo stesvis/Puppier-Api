@@ -23,14 +23,16 @@ class ListingFactory extends Factory
      */
     public function definition()
     {
+        $listing_category = ListingCategory::inRandomOrder()->first();
+
         return [
             'user_id' => User::inRandomOrder()->first()->id, // User::all('id')->random();
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->text,
             'location' => $this->faker->latitude.','.$this->faker->longitude,
             'address' => $this->faker->city.', '.$this->faker->stateAbbr,
-            'price' => $this->faker->randomFloat(2, 0, 5000),
-            'listing_category_id' => ListingCategory::inRandomOrder()->first()->id,
+            'price' => $listing_category->name === 'Dog' ? $this->faker->randomFloat(2, 250, 5000) : $this->faker->randomFloat(2, 0, 200),
+            'listing_category_id' => $listing_category->id,
             'show_contact_phone' => $this->faker->boolean,
         ];
     }
