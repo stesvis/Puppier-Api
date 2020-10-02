@@ -37,11 +37,9 @@ class ListingsApiController extends BaseApiController
             $where = $this->request->query('where');
             $category_id = $this->request->query('category_id');
 
-            if (!empty($keywords) || !empty($where) || (!empty($category_id) && is_numeric($category_id))) {
-                $listings = $this->service->search($keywords, $where, $category_id);
-            } else {
-                $listings = $this->service->all();
-            }
+            $listings = $this->service
+                ->search($keywords, $where, $category_id)
+                ->sortByDesc('created_at');
 
             if ($this->paginate !== null) {
                 $listings = $listings->paginate($this->paginate);

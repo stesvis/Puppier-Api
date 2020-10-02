@@ -19,6 +19,7 @@ class CreateListingPhotosTable extends Migration
             $table->string('path');
             $table->string('public_url');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -25,6 +25,7 @@ class CreateListingsTable extends Migration
             $table->integer('views_count')->default(0);
             $table->boolean('show_contact_phone')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

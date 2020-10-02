@@ -65,7 +65,7 @@ class BaseService implements BaseServiceInterface
             $data = $data->toArray();
         }
 
-        $model = $this->modelClass->findOrFail($id);
+        $model = $this->get($id);
 
         if ($model->wasChanged()) {
             return $model->update($data);
@@ -74,4 +74,14 @@ class BaseService implements BaseServiceInterface
         return $model;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        $model = $this->get($id);
+
+        return $model->delete();
+    }
 }

@@ -54,7 +54,7 @@ class Listing extends BaseModel
      */
     public function comments()
     {
-        return $this->hasMany(ListingComment::class);
+        return $this->hasMany(ListingComment::class)->orderBy('created_at');
     }
 
     /**

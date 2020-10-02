@@ -43,7 +43,7 @@ class ListingsService extends BaseService implements ListingsServiceInterface
         if (!empty($where)) {
             $query = $query->where('address', 'like', '%'.$where.'%');
         }
-        if (!empty($category_id)) {
+        if (!empty($category_id) && is_numeric($category_id)) {
             $query = $query->where('listing_category_id', $category_id);
         }
 
