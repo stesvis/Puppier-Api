@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     // authentication
     Route::post('auth/token', [\App\Http\Controllers\api\AuthController::class, 'token']);
+    Route::post('logout', [\App\Http\Controllers\api\AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     // Custom users routes
     Route::get('users/me', [\App\Http\Controllers\api\UsersApiController::class, 'me'])->middleware('auth:sanctum');
