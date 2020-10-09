@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Misc\Enums\RolesEnum;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -18,9 +19,9 @@ class UsersSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $role_user = Role::where('name', 'user')->first();
-        $role_admin = Role::where('name', 'admin')->first();
-        $role_superadmin = Role::where('name', 'superadmin')->first();
+        $role_user = Role::where('name', RolesEnum::User)->first();
+        $role_admin = Role::where('name', RolesEnum::Admin)->first();
+        $role_superadmin = Role::where('name', RolesEnum::SuperAdmin)->first();
 
         // superadmin
         $user = new User([
@@ -30,7 +31,7 @@ class UsersSeeder extends Seeder
             'password' => bcrypt('Abc123!'),
             'remember_token' => Str::random(10),
             'phone' => $faker->e164PhoneNumber,
-            'profile_photo_path' => $faker->imageUrl(400, 400, 'people')
+            'profile_photo_path' => $faker->imageUrl(400, 400, 'people'),
         ]);
         $user->save();
         $user->roles()->attach($role_superadmin);
@@ -43,7 +44,7 @@ class UsersSeeder extends Seeder
             'password' => bcrypt('Abc123!'),
             'remember_token' => Str::random(10),
             'phone' => $faker->e164PhoneNumber,
-            'profile_photo_path' => $faker->imageUrl(400, 400, 'people')
+            'profile_photo_path' => $faker->imageUrl(400, 400, 'people'),
         ]);
         $user->save();
         $user->roles()->attach($role_admin);
