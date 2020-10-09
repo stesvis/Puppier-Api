@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Models\User;
@@ -46,12 +47,20 @@ class UsersApiController extends BaseApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param StoreUserRequest $request
+     * @return UserResource|JsonResponse|object
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+
+            $user = $this->service->create($data);
+
+            return new UserResource($user);
+        } catch (Exception $ex) {
+            return parent::handleException($ex);
+        }
     }
 
     /**
