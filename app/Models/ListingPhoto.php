@@ -28,4 +28,21 @@ class ListingPhoto extends Model
     {
         return $this->belongsTo(Listing::class);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
 }

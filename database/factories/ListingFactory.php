@@ -24,16 +24,38 @@ class ListingFactory extends Factory
     public function definition()
     {
         $listing_category = ListingCategory::inRandomOrder()->first();
+        $user = User::inRandomOrder()->first(); // User::all('id')->random();
+        $user_id = $user->id;
+
+        if ($this->faker->boolean(10)) {
+            $email = $this->faker->safeEmail;
+        } else {
+            $email = $user->email;
+        }
+
+        if ($this->faker->boolean(10)) {
+            $phone = $this->faker->e164PhoneNumber;
+        } else {
+            if ($this->faker->boolean(10)) {
+                $phone = $user->phone;
+            } else {
+                $phone = null;
+            }
+        }
 
         return [
-            'user_id' => User::inRandomOrder()->first()->id, // User::all('id')->random();
+            'user_id' => $user_id,
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->text,
+            'email' => $email,
+            'phone' => $phone,
             'location' => $this->faker->latitude.','.$this->faker->longitude,
             'address' => $this->faker->city.', '.$this->faker->stateAbbr,
             'price' => $listing_category->name === 'Dog' ? $this->faker->randomFloat(2, 250, 5000) : $this->faker->randomFloat(2, 0, 200),
             'listing_category_id' => $listing_category->id,
             'show_contact_phone' => $this->faker->boolean,
+            'created_by' => $user_id,
+            'updated_by' => $user_id,
         ];
     }
 }

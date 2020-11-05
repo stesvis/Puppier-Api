@@ -23,6 +23,8 @@ class Listing extends BaseModel
         'location',
         'address',
         'listing_category_id',
+        'phone',
+        'email',
     ];
 
     /**
@@ -63,5 +65,21 @@ class Listing extends BaseModel
     public function getPriceAttribute($price)
     {
         return '$'.number_format($price, 2, '.', ',');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

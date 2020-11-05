@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\StoreListingRequest;
 use App\Http\Resources\ListingResource;
 use App\Http\Resources\ListingResourceCollection;
-use App\Http\Resources\VehicleResource;
 use App\Models\Listing;
 use App\Services\Listings\ListingsServiceInterface;
 use Exception;
@@ -71,12 +71,22 @@ class ListingsApiController extends BaseApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param StoreListingRequest $request
+     * @return ListingResource|JsonResponse|object
      */
-    public function store(Request $request)
+    public function store(StoreListingRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+
+            $data['user_id'] = $request->user()->id;
+
+            $listing = $this->service->create($data);
+
+            return new ListingResource($listing);
+        } catch (Exception $ex) {
+            return parent::handleException($ex);
+        }
     }
 
     /**

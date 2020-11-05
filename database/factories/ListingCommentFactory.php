@@ -27,18 +27,20 @@ class ListingCommentFactory extends Factory
         if ($this->faker->boolean(10)) {
             $user = User::inRandomOrder()->first();
         } else {
-            $user->name = $this->faker->name;
-            $user->email = $this->faker->safeEmail;
+            $user['name'] = $this->faker->name;
+            $user['email'] = $this->faker->safeEmail;
         }
 
-        $comment = [
+        $user_id = $user->id > 0 ? $user->id : null;
+
+        return [
             'listing_id' => Listing::inRandomOrder()->first()->id,
-            'user_id' => $user->id > 0 ? $user->id : null,
+            'user_id' => $user_id,
             'name' => $user->name,
             'email' => $user->email,
             'message' => $this->faker->realText(),
+            'created_by' => $user_id,
+            'updated_by' => $user_id,
         ];
-
-        return $comment;
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateListingCategoriesTable extends Migration
+class AddPhoneAndEmailToListingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateListingCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('listing_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
-
-            $table->softDeletes();
+        Schema::table('listings', function (Blueprint $table) {
+            $table->string('phone')->nullable();
+            $table->string('email');
         });
     }
 
@@ -29,6 +26,9 @@ class CreateListingCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('listing_categories');
+        Schema::table('listings', function (Blueprint $table) {
+            $table->dropColumn('phone');
+            $table->dropColumn('email');
+        });
     }
 }

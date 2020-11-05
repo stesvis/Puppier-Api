@@ -19,6 +19,10 @@ class CreateListingPhotosTable extends Migration
             $table->string('path');
             $table->string('public_url');
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->constrained('users');
+            $table->foreignId('deleted_by')->nullable()->constrained('users');
+
             $table->softDeletes();
         });
     }

@@ -32,6 +32,7 @@ Route::prefix('v1')->group(function () {
         'listings' => \App\Http\Controllers\api\ListingsApiController::class,
         'listing_categories' => \App\Http\Controllers\api\ListingCategoryApiController::class,
     ]);
+    Route::post('listings', [\App\Http\Controllers\api\ListingsApiController::class, 'store'])->middleware('auth:sanctum');
 
     Route::get('test', function (Request $request) {
         if ($request->user()->tokenCan('read')) {
