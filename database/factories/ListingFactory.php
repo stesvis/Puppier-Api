@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
 use App\Models\Listing;
 use App\Models\ListingCategory;
 use App\Models\User;
@@ -26,6 +27,8 @@ class ListingFactory extends Factory
         $listing_category = ListingCategory::inRandomOrder()->first();
         $user = User::inRandomOrder()->first(); // User::all('id')->random();
         $user_id = $user->id;
+        $address = Address::inRandomOrder()->first(); // Address::all('id')->random();
+        $address_id = $address->id;
 
         if ($this->faker->boolean(10)) {
             $email = $this->faker->safeEmail;
@@ -49,11 +52,9 @@ class ListingFactory extends Factory
             'description' => $this->faker->text,
             'email' => $email,
             'phone' => $phone,
-            'location' => $this->faker->latitude.','.$this->faker->longitude,
-            'address' => $this->faker->city.', '.$this->faker->stateAbbr,
             'price' => $listing_category->name === 'Dog' ? $this->faker->randomFloat(2, 250, 5000) : $this->faker->randomFloat(2, 0, 200),
             'listing_category_id' => $listing_category->id,
-            'show_contact_phone' => $this->faker->boolean,
+            'address_id' => $address_id,
             'created_by' => $user_id,
             'updated_by' => $user_id,
         ];

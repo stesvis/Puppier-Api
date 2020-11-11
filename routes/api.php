@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Resources\ErrorResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,14 +33,26 @@ Route::prefix('v1')->group(function () {
     Route::post('listings', [\App\Http\Controllers\api\ListingsApiController::class, 'store'])->middleware('auth:sanctum');
 
     Route::get('test', function (Request $request) {
-        if ($request->user()->tokenCan('read')) {
-            return (new \App\Http\Resources\SuccessResource(new \App\DTOs\SuccessDTO('Success!')))->response()
-                ->setStatusCode
-                (Response::HTTP_OK);
-        }
 
-        return (new ErrorResource(new \App\DTOs\ErrorDTO('Unauthorized', Response::HTTP_UNAUTHORIZED, 'Token does not have permission.')))->response()->setStatusCode
-        (Response::HTTP_UNAUTHORIZED);
+//        //-----------------------------------------------------------------------------------------------------------------//
+//        // check permissions
+//        if ($request->user()->tokenCan('read')) {
+//            return (new \App\Http\Resources\SuccessResource(new \App\DTOs\SuccessDTO('Success!')))->response()
+//                ->setStatusCode
+//                (Response::HTTP_OK);
+//        }
+//
+//        return (new ErrorResource(new \App\DTOs\ErrorDTO('Unauthorized', Response::HTTP_UNAUTHORIZED, 'Token does not have permission.')))->response()->setStatusCode
+//        (Response::HTTP_UNAUTHORIZED);
+//        //-----------------------------------------------------------------------------------------------------------------//
+
+//        $coordinates = \App\Misc\GeocodingIdentifier::getCoordinates('Magrath, AB Canada');
+//        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByCoordinates($coordinates['lat'], $coordinates['lon']);
+        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByAddress('Lethbridge, AB');
+
+//        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByPlaceId('ChIJWVEj6CCVblMRbMwciBepVfo');
+
+        return new \Illuminate\Http\JsonResponse($location);
     })->middleware('auth:sanctum');
 
 });

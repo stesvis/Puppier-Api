@@ -18,6 +18,12 @@ class ListingResource extends BaseResource
 
         $listing = parent::toArray($request);
         $listing[] = $this->mergeWhen(
+            !isset($listing['address']) &&
+            ($includes->contains('address') || $includes->contains('listings.address')),
+            [
+                'address' => new AddressResource($this->address), // additional field
+            ]);
+        $listing[] = $this->mergeWhen(
             !isset($listing['user']) &&
             ($includes->contains('user') || $includes->contains('listings.user')),
             [

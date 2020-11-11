@@ -23,7 +23,6 @@ class CreateListingsTable extends Migration
             $table->unsignedDecimal('price', 8, 2)->default(0.00);
             $table->foreignId('listing_category_id')->constrained();
             $table->integer('views_count')->default(0);
-            $table->boolean('show_contact_phone')->default(false);
             $table->timestamps();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');

@@ -2,3 +2,5 @@ Postman Collection: https://www.getpostman.com/collections/a2334bb7f368df810263
 
 JetStream: https://jetstream.laravel.com/1.x/introduction.html
 Sanctum: https://laravel.com/docs/master/sanctum
+
+Reset and seed: php artisan migrate:refresh --seed

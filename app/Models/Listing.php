@@ -20,8 +20,7 @@ class Listing extends BaseModel
         'title',
         'description',
         'price',
-        'location',
-        'address',
+        'address_id',
         'listing_category_id',
         'phone',
         'email',
@@ -41,6 +40,14 @@ class Listing extends BaseModel
     public function category()
     {
         return $this->belongsTo(ListingCategory::class, 'listing_category_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 
     /**

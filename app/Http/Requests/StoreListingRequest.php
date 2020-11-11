@@ -31,7 +31,7 @@ class StoreListingRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0'],
             'phone' => ['string', 'nullable'],
             'address' => ['string', 'required'],
-            'location' => ['string', 'required'],
+            'coordinates' => ['string', 'required'],
         ];
     }
 }
