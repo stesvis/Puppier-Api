@@ -48,11 +48,13 @@ Route::prefix('v1')->group(function () {
 
 //        $coordinates = \App\Misc\GeocodingIdentifier::getCoordinates('Magrath, AB Canada');
 //        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByCoordinates($coordinates['lat'], $coordinates['lon']);
-        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByAddress('Lethbridge, AB');
+//        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByAddress('Lethbridge, AB');
 
 //        $location = \App\Misc\GeocodingIdentifier::getGeoLocationByPlaceId('ChIJWVEj6CCVblMRbMwciBepVfo');
 
-        return new \Illuminate\Http\JsonResponse($location);
+        $address = \App\Models\Address::FindOrFail(1);
+
+        return new \Illuminate\Http\JsonResponse($address);
     })->middleware('auth:sanctum');
 
 });

@@ -20,7 +20,8 @@ class Address extends BaseModel
     ];
 
     protected $casts = [
-        'geolocation' => 'array',
+//        'geolocation' => Json::class,
+        'geolocation' => 'array', // same as the above
     ];
 
     /**
